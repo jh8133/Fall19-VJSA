@@ -4,3 +4,4 @@ Code for projects in the Fall 2019 [Vanilla JS Academy](https://vanillajsacademy
 ## Project summaries
 01. Toggle Password visibility
 02. Toggle the mask on multiple Password fields
+03. Toggle the password mask on a page with multiple forms
