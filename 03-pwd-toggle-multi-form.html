@@ -100,9 +100,7 @@
 				Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
 			}
 
-			// listen for click events on the document
-			// d.addEventListener('click', togglePasswordMask(), false);
-			d.addEventListener('click', function(e) {
+			function togglePasswordMask (e) {
 				if (! e.target.matches('[type="checkbox"]') ) {
 					return;
 				}
@@ -116,7 +114,11 @@
 						field.type = (event.target.checked) ? 'text' : 'password';
 					})
 				}
-			}, false);
+			}
+
+			// listen for click events on the document
+			// d.addEventListener('click', togglePasswordMask(), false);
+			d.addEventListener('click', togglePasswordMask, false);
 		})(document);
 	
 	</script>
