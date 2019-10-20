@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Password Visibility - Multiple Forms</title>
+
+	<style type="text/css">
+		body {
+			margin: 1em auto;
+			max-width: 40em;
+			width: 88%;
+		}
+
+		label {
+			display: block;
+			width: 100%;
+		}
+
+		input {
+			margin-bottom: 1em;
+		}
+
+		[type="checkbox"] {
+			margin-bottom: 0;
+			margin-right: 0.25em;
+		}
+	</style>
+</head>
+<body>
+
+	<h1>Password Visibility - Multiple Forms</h1>
+
+	<form id="change-username">
+		<fieldset><legend><h2>Change Your Username</h2></legend>
+			<p>Enter your username and password to change your username.</p>
+			<div>
+				<label for="username">Username</label>
+				<input type="text" name="username" id="username">
+			</div>
+
+			<div>
+				<label for="password">Password</label>
+				<input type="password" name="password" id="password" data-pwd-input="true">
+			</div>
+
+			<div>
+				<label for="show-password">
+					<input type="checkbox" name="show-password" id="show-password">
+					Show password
+				</label>
+			</div>
+			<p>
+				<button type="submit">Change Username</button>
+			</p>
+		</fieldset>
+	</form>
+
+	<form id="change-password">
+		<fieldset><legend><h2>Change Your Password</h2></legend>
+			<p>Enter your current password and new password below.</p>
+			<div>
+				<label for="current-password">Current Password</label>
+				<input type="password" name="current-password" id="current-password" data-pwd-input="true">
+			</div>
+
+			<div>
+				<label for="new-password">New Password</label>
+				<input type="password" name="new-password" id="new-password" data-pwd-input="true">
+			</div>
+
+			<div>
+				<label for="show-passwords">
+					<input type="checkbox" name="show-passwords" id="show-passwords">
+					Show passwords
+				</label>
+			</div>
+			<p>
+				<button type="submit">Change Passwords</button>
+			</p>
+		</fieldset>
+	</form>
+
+	<script>
+		/**
+		 * 1. add and delegate an event listener for the document
+		 * 2. if a checkbox was clicked get the closest form so we have all fields
+		 * 3. set a var for all password fields in the form (data-pwd-input)
+		 * 4. toggle show/mask password field(s) for the desired form
+		*/
+		// use IIFE code pattern 
+		// see: https://ultimatecourses.com/blog/what-function-window-document-undefined-iife-really-means
+		(function (d) {
+
+			"use strict";
+
+			/**
+			 * Element.matches() polyfill (simple version)
+			 * https://developer.mozilla.org/en-US/docs/Web/API/Element/matches#Polyfill
+			*/
+			if (!Element.prototype.matches) {
+				Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+			}
+
+			// listen for click events on the document
+			// d.addEventListener('click', togglePasswordMask(), false);
+			d.addEventListener('click', function(e) {
+				if (! e.target.matches('[type="checkbox"]') ) {
+					return;
+				}
+				else {
+					// get the form adjacent/containing to the checkbox
+					var form = event.target.closest('form');
+					// get an array of all password fields
+					var passinputs = Array.prototype.slice.call(form.querySelectorAll('[data-pwd-input]'));
+					// traverse the array and toggle the mask based on the checkbox state
+					passinputs.forEach( function (field){
+						field.type = (event.target.checked) ? 'text' : 'password';
+					})
+				}
+			}, false);
+		})(document);
+	
+	</script>
+</body>
+</html>
