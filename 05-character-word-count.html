@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Character Count</title>
+
+	<style type="text/css">
+		body {
+			margin: 1em auto;
+			max-width: 40em;
+			width: 88%;
+		}
+
+		label {
+			display: block;
+			width: 100%;
+		}
+
+		textarea {
+			min-height: 24em;
+			width: 100%;
+		}
+	</style>
+</head>
+<body>
+
+	<h1>Character Count</h1>
+
+	<label for="text">Enter your text below.</label>
+	<textarea id="text"></textarea>
+
+	<p>You've written <strong><span id="word-count">0</span> words</strong> and <strong><span id="character-count">0</span> characters</strong>.</p>
+
+
+	<script>
+	/**
+		 * 1. get the textarea element
+		 * 2. add an 'input' listener to the element 
+		 * 3. update the word and character spans with the current count(s)
+		*/
+		// use IIFE code pattern 
+		// see: https://ultimatecourses.com/blog/what-function-window-document-undefined-iife-really-means
+		;(function (d) {
+
+			"use strict";
+
+			// get the text area element so we can count chars
+			var textArea = d.querySelector('#text');
+
+			// get the span so we can update the count
+			var charCount = d.querySelector('#character-count');
+			var wordCount = d.querySelector('#word-count');
+			
+			// start with initial length of the textarea
+			charCount.textContent = textArea.value.length;
+
+			// add a listener to update the count
+			// keydown does not seem to update the count if you 
+			// select and delete all the text until the next keydown??
+			textArea.addEventListener('input', function(e) {
+				charCount.textContent = textArea.value.length;
+				wordCount.textContent = textArea.value.
+					split(/\s+/).
+					filter(function (item) {return item.length > 0;}).
+					length;	
+			}, false);
+		}) (document);
+	</script>
+</body>
+</html>
