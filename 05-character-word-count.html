@@ -53,15 +53,16 @@
 			// start with initial length of the textarea
 			charCount.textContent = textArea.value.length;
 
-			// add a listener to update the count
-			// keydown does not seem to update the count if you 
-			// select and delete all the text until the next keydown??
+			// add an input listener to update the count with keyed data and cut/paste
 			textArea.addEventListener('input', function(e) {
+				// account for carraige returns (regex) and consecutive whitespace chars (filter)
+				var words = textArea.value.split(/[\n\r\s]+/g).filter(function (item) {
+						return item.length > 0;
+					});
+
+				wordCount.textContent = words.length;	
 				charCount.textContent = textArea.value.length;
-				wordCount.textContent = textArea.value.
-					split(/\s+/).
-					filter(function (item) {return item.length > 0;}).
-					length;	
+
 			}, false);
 		}) (document);
 	</script>
