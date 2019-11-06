@@ -6,3 +6,4 @@ Code for projects in the Fall 2019 [Vanilla JS Academy](https://vanillajsacademy
 02. Toggle the mask on multiple Password fields
 03. Toggle the password mask on a page with multiple forms
 04. Realtime character count of textarea content
+05. Raltime word and caracter count for textarea content
