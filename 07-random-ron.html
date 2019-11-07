@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>Random Ron</title>
+
+	<style type="text/css">
+		body {
+			margin: 1em auto;
+			max-width: 40em;
+			width: 88%;
+		}
+	</style>
+	<!-- include polyfills for fetch and promise to support IE10+ -->
+	<script type="javascript/text" src="./07-fetch-polyfill.js"></script>
+	<script type="javascript/text" src="./07-promise-polyfill.js"></script>
+</head>
+<body>
+
+	<h1>Random Ron</h1>
+
+	<blockquote id="quote"></blockquote>
+
+	<p>
+		<button id="more-ron">More Ron</button>
+	</p>
+
+	<script>
+		/**
+			* 1. prepare a fetch() to retrieve the random quote 
+			* 2. set a promise to update the blockquote
+			* 3. add a listener to the button to perform a new fetch()
+		*/
+		// use IIFE code pattern 
+		// see: https://ultimatecourses.com/blog/what-function-window-document-undefined-iife-really-means
+		;(function (d) {
+			
+
+			"use strict";
+			var btn = d.querySelector('#more-ron');
+			var bq = d.querySelector('#quote');
+
+			function getNewQuote () {
+				console.log(bq);
+
+				fetch('http://ron-swanson-quotes.herokuapp.com/v2/quotes').then(function (response) {
+					// The API call was successful!
+					return response.json();
+				}).then(function (data) {
+					//update the blockquote with the response string
+					bq.innerHTML = data;
+				}).catch(function (err) {
+					// There was an error
+					console.warn('Something went wrong.', err);
+				});
+			}
+
+			getNewQuote();
+
+			// add a listener to get a new quote when the button is clicked
+			btn.addEventListener('click', function(e) {
+				// send a new fetch()
+				getNewQuote();
+			}, false);
+		}) (document);
+		</script>
+	</body>
+</html>
