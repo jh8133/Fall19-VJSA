@@ -19,7 +19,7 @@
 
 	<h1>Random Ron</h1>
 
-	<blockquote id="quote"></blockquote>
+	<blockquote id="quote" aria-live="polite"></blockquote>
 
 	<p>
 		<button id="more-ron">More Ron</button>
@@ -48,7 +48,7 @@
 					return response.json();
 				}).then(function (data) {
 					//update the blockquote with the response string
-					bq.innerHTML = data;
+					bq.textContent = data[0];
 				}).catch(function (err) {
 					// There was an error
 					console.warn('Something went wrong.', err);
