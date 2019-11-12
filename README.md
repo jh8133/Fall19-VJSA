@@ -9,3 +9,4 @@ Code for projects in the Fall 2019 [Vanilla JS Academy](https://vanillajsacademy
 05. Realtime word and character count for textarea content
 06. Enhance project 5 to work with screen readers
 07. Fetch a quote from Ron and get more when requested
+08. Enhance project 5 to prevent duplicates within the last 50 quotes
