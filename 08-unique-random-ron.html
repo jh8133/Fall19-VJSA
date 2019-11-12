@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>Unique Random Ron</title>
+
+	<style type="text/css">
+		body {
+			margin: 1em auto;
+			max-width: 40em;
+			width: 88%;
+		}
+	</style>
+	<!-- include polyfills from the previous project for fetch and promise to support IE10+ -->
+	<script type="javascript/text" src="./07-fetch-polyfill.js"></script>
+	<script type="javascript/text" src="./07-promise-polyfill.js"></script>
+</head>
+<body>
+
+	<h1>Unique Random Ron</h1>
+
+	<blockquote id="quote" aria-live="polite"></blockquote>
+
+	<p>
+		<button id="more-ron">More Ron</button>
+	</p>
+
+	<script>
+		/**
+			* 1. prepare a fetch() to retrieve the random quote
+			* 2. check if it is unique in this session and if not, re-fetch()  
+			* 2. set a promise to update the blockquote
+			* 3. add a listener to the button to perform a new fetch()
+		*/
+		// use IIFE code pattern 
+		// see: https://ultimatecourses.com/blog/what-function-window-document-undefined-iife-really-means
+		;(function (d) {
+			
+
+			"use strict";
+			var btn = d.querySelector('#more-ron');
+			var bq = d.querySelector('#quote');
+			var quoteArray = [];
+
+			function getNewQuote () {
+				fetch('http://ron-swanson-quotes.herokuapp.com/v2/quotes').then(function (response) {
+					if (response.ok) {
+						// The API call was successful
+						return response.json();
+					} else {
+						return Promise.reject(response);
+					}
+				}).then(function (data) {
+					if (quoteArray.indexOf(data[0]) == -1) {
+						// check the size of the array and reset if at 50
+						if (quoteArray.length >= 50) {
+							quoteArray = [];
+						} 
+						// quote is not currently in the array, so add it
+						quoteArray.push(data[0]);
+					}
+					else {
+						// it's in the array so it is a duplicate. Get a new quote
+						getNewQuote();
+						return;
+					}
+					//update the blockquote with the response string
+					bq.textContent = quoteArray[quoteArray.length-1];
+				}).catch(function (err) {
+					// There was an error
+					console.warn('Something went wrong.', err);
+				});
+			}
+
+			// if unique, update the blockquote with the response string
+			getNewQuote();
+
+			// add a listener to get a new quote when the button is clicked
+			btn.addEventListener('click', function(e) {
+				// send a new fetch()
+				getNewQuote();
+			}, false);
+		}) (document);
+		</script>
+	</body>
+</html>
