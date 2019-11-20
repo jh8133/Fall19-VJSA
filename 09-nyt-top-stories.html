@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<title>Project 9 - NYT Top Stories</title>
+
+	<style type="text/css">
+		body {
+			margin: 1em auto;
+			max-width: 40em;
+			width: 88%;
+		}
+	</style>
+</head>
+<body>
+
+	<h1>Project 9 NYT Top Stories</h1>
+
+	<div id="app"></div>
+
+	<script>
+		/**
+			* 1. get an array of stories from the New York Times API
+            * 2. create markup
+            * 3. inject markup into the #app element.
+		*/
+		// use IIFE code pattern 
+		// see: https://ultimatecourses.com/blog/what-function-window-document-undefined-iife-really-means
+		;(function (d) {			
+			"use strict";
+            
+            var apiURL = 'https://api.nytimes.com/svc/topstories/v2/home.json?api-key=BIW2JYEC20y6AW9GMEqA9VRl7LW6Cldg';
+            var divForMarkup = d.querySelector('#app');
+
+            function createStoryMarkup( storyArray ) {
+                return '<h2><a href="' + storyArray.url + '">' +  storyArray.title + '</a></h2><h3>' + storyArray.byline + '</h3>'+ storyArray.abstract;
+            }
+            function getTopStories ( apiURL ) {
+				fetch(apiURL).then(function (response) {
+					if (response.ok) {
+						// The API call was successful
+						return response.json();
+					} else {
+						return Promise.reject(response);
+					}
+				}).then(function (data) {
+                    var finalMarkup = data.results.slice(0,5).map(createStoryMarkup).join('');
+                    console.log(finalMarkup);
+                    divForMarkup.innerHTML = finalMarkup;
+				}).catch(function (err) {
+					// There was an error
+					console.warn('Something went wrong.', err);
+				});
+			}
+
+            getTopStories(apiURL);
+
+		}) (document);
+		</script></body>
+</html>
